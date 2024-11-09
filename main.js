@@ -45,6 +45,11 @@ const listNotes = () => {
   return notes;
 };
 
+app.get('/', (req, res) => {
+  res.send('Welcome to the Notes API');
+});
+
+
 
 app.get('/notes/:name', (req, res) => {
   const notePath = getNotePath(req.params.name);
