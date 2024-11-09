@@ -19,6 +19,7 @@ program
 const { host, port, cache } = program.opts();
 
 
+
 if (!fs.existsSync(cache)) {
   fs.mkdirSync(cache);
 }
@@ -80,15 +81,23 @@ app.put('/notes/:name', (req, res) => {
 
 
 app.delete('/notes/:name', (req, res) => {
-  const notePath = getNotePath(req.params.name);
+  const noteName = decodeURIComponent(req.params.name).trim(); // Декодуємо параметр і обрізаємо зайві пробіли
+  const notePath = getNotePath(noteName);
+  
+  console.log(`Attempting to delete: ${notePath}`);
+  
   if (!fs.existsSync(notePath)) {
-    return res.status(404).send('Note not found');
+      console.log('File not found');
+      return res.status(404).send('Not found');
   }
+  
   try {
-    fs.unlinkSync(notePath);
-    res.send('Note deleted');
+      fs.unlinkSync(notePath);
+      console.log('File deleted');
+      res.send('Note deleted');
   } catch (error) {
-    res.status(500).send('Error deleting the note');
+      console.error('Error deleting file:', error);
+      res.status(500).send('Error deleting the note');
   }
 });
 
