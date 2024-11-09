@@ -21,3 +21,21 @@ const { host, port, cache } = commander.opts();
 if (!fs.existsSync(cache)) {
   fs.mkdirSync(cache);
 }
+
+const getNotePath = (noteName) => path.join(cache, `${noteName}.txt`);
+
+const listNotes = () => {
+    const files = fs.readdirSync(cache);
+    const notes = [];
+    
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const note = {
+        name: path.basename(file, '.txt'),
+        text: fs.readFileSync(path.join(cache, file), 'utf8'),
+      };
+      notes.push(note);
+    }
+    
+    return notes;
+  };
