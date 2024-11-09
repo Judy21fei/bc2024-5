@@ -1,0 +1,433 @@
+{
+	"info": {
+		"_postman_id": "e5dd4abd-fe3c-4f2c-9f7f-6f34fe9888bb",
+		"name": "Notes API",
+		"description": "# 🗒️ Get started here\n\nThis collection template is a blueprint demonstrating the core features of a note-taking REST API, like creating, viewing, and updating notes. You can use this template as inspiration to build your custom API or extend it to work with one you've already started working on.\n\n## 🔖 How to use this collection?\n\n#### **Step 1: Send the requests**\n\nSend the requests and view the response returned by the mock API, or check out the examples included.\n\n#### **Step 2: Update the base URL**\n\nSelect the collection and navigate to the Variables tab. Update the `base_url` variable with your API's URL.\n\n#### **Step 3: Customize the requests**\n\nUpdate the different requests to suit your use case, including the request body, authorization, documentation, headers, tests, and path parameters.\n\n#### **Step 4: Continue building the collection**\n\nCreate requests in this collection to test the new API endpoints you develop.\n\n## ℹ️ Resources\n\n[Building requests](https://learning.postman.com/docs/sending-requests/requests/)  \n[Authorizing requests](https://learning.postman.com/docs/sending-requests/authorization/)  \n[Using variables](https://learning.postman.com/docs/sending-requests/variables/)  \n[Creating your first collection](https://learning.postman.com/docs/getting-started/creating-the-first-collection/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39619801"
+	},
+	"item": [
+		{
+			"name": "Create note",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:3000/write",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"write"
+					]
+				},
+				"description": "Create a new note."
+			},
+			"response": [
+				{
+					"name": "Create note",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"claimNumber\": \"C123456\",\n  \"policyNumber\": \"P987654\",\n  \"claimAmount\": 5000,\n  \"description\": \"Car accident claim\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/notes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notes"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"id\": \"note3\",\n  \"title\": \"New Note\",\n  \"content\": \"This is a new note.\",\n  \"createdAt\": \"2023-05-18T16:20:00Z\",\n  \"updatedAt\": \"2023-05-18T16:20:00Z\"\n}\n"
+				}
+			]
+		},
+		{
+			"name": "Get all notes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/notes/:name",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"notes",
+						":name"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": ""
+						}
+					]
+				},
+				"description": "Retrieve all notes."
+			},
+			"response": [
+				{
+					"name": "Get all notes",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/notes/:name",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"notes",
+								":name"
+							],
+							"variable": [
+								{
+									"key": "name",
+									"value": ""
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"notes\": [\n    {\n      \"id\": \"note1\",\n      \"title\": \"Meeting Notes\",\n      \"content\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit.\",\n      \"createdAt\": \"2023-05-18T10:30:00Z\",\n      \"updatedAt\": \"2023-05-18T14:45:00Z\"\n    },\n    {\n      \"id\": \"note2\",\n      \"title\": \"Project Ideas\",\n      \"content\": \"Nulla facilisi. Duis aliquam mi sed diam varius scelerisque.\",\n      \"createdAt\": \"2023-05-17T15:20:00Z\",\n      \"updatedAt\": \"2023-05-18T09:10:00Z\"\n    }\n  ]\n}\n"
+				}
+			]
+		},
+		{
+			"name": "Get Upload.Form.html",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/UploadForm.html",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"UploadForm.html"
+					]
+				},
+				"description": "Retrieve all notes."
+			},
+			"response": [
+				{
+					"name": "Get all notes",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/notes/:name",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"notes",
+								":name"
+							],
+							"variable": [
+								{
+									"key": "name",
+									"value": ""
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"notes\": [\n    {\n      \"id\": \"note1\",\n      \"title\": \"Meeting Notes\",\n      \"content\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit.\",\n      \"createdAt\": \"2023-05-18T10:30:00Z\",\n      \"updatedAt\": \"2023-05-18T14:45:00Z\"\n    },\n    {\n      \"id\": \"note2\",\n      \"title\": \"Project Ideas\",\n      \"content\": \"Nulla facilisi. Duis aliquam mi sed diam varius scelerisque.\",\n      \"createdAt\": \"2023-05-17T15:20:00Z\",\n      \"updatedAt\": \"2023-05-18T09:10:00Z\"\n    }\n  ]\n}\n"
+				}
+			]
+		},
+		{
+			"name": "Get note details",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/notes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"notes"
+					]
+				},
+				"description": "Retrieve the details of a specific note by providing the note ID."
+			},
+			"response": [
+				{
+					"name": "Get note details",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/notes/:noteId",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notes",
+								":noteId"
+							],
+							"variable": [
+								{
+									"key": "noteId",
+									"value": null
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"id\": \"note1\",\n  \"title\": \"Meeting Notes\",\n  \"content\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit.\",\n  \"createdAt\": \"2023-05-18T10:30:00Z\",\n  \"updatedAt\": \"2023-05-18T14:45:00Z\"\n}\n"
+				}
+			]
+		},
+		{
+			"name": "Update note",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Updated Note\",\n  \"content\": \"This is an updated note.\",\n  \"text\": \"Updated note content\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/notes/:name",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"notes",
+						":name"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": ""
+						}
+					]
+				},
+				"description": "Update the details of a specific note identified by its note ID."
+			},
+			"response": [
+				{
+					"name": "Update note",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"claimNumber\": \"C123456\",\n  \"policyNumber\": \"P987654\",\n  \"claimAmount\": 8000,\n  \"description\": \"Updated car accident claim\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/notes/:noteId",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notes",
+								":noteId"
+							],
+							"variable": [
+								{
+									"key": "noteId",
+									"value": null
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"id\": \"note3\",\n  \"title\": \"Updated Note\",\n  \"content\": \"This is an updated note.\",\n  \"createdAt\": \"2023-05-18T16:20:00Z\",\n  \"updatedAt\": \"2023-05-18T17:30:00Z\"\n}\n"
+				}
+			]
+		},
+		{
+			"name": "Delete note",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/notes/:name",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"notes",
+						":name"
+					],
+					"variable": [
+						{
+							"key": "name",
+							"value": ""
+						}
+					]
+				},
+				"description": "Delete a specific note identified by its note ID."
+			},
+			"response": [
+				{
+					"name": "Delete note",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/notes/:noteId",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"notes",
+								":noteId"
+							],
+							"variable": [
+								{
+									"key": "noteId",
+									"value": null
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"note1\",\n    \"title\": \"Meeting Notes\",\n    \"content\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit.\",\n    \"createdAt\": \"2023-05-18T10:30:00Z\",\n    \"updatedAt\": \"2023-05-18T14:45:00Z\"\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://0d4c8194-63ba-411a-a5c5-405dfb919883.mock.pstmn.io"
+		}
+	]
+}
