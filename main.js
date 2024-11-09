@@ -1,70 +1,124 @@
-const { program } = require('commander');
 const express = require('express');
+const http = require('http');
+const { Command } = require('commander');
+const fs = require('fs');
+const path = require('path');
+
 const app = express();
-
-program
-  .requiredOption('-h, --host <host>', 'server address')
-  .requiredOption('-p, --port <port>', 'server port')
-  .requiredOption('-c, --cache <cache>', 'cache directory');
-
-program.parse(process.argv);
-
-const { host, port, cache } = program.opts();
-
-app.listen(port, host, () => {
-  console.log(`Server running at http://${host}:${port}`);
-});
-
-const notes = {};
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const program = new Command();
+
+program
+  .requiredOption('-h, --host <host>', 'Server host')
+  .requiredOption('-p, --port <port>', 'Server port')
+  .requiredOption('-c, --cache <cacheDir>', 'Cache directory path')
+  .parse(process.argv);
+
+const { host, port, cache } = program.opts();
+
+
+if (!fs.existsSync(cache)) {
+  fs.mkdirSync(cache);
+}
+
+const getNotePath = (noteName) => path.join(cache, `${noteName}.txt`);
+
+const listNotes = () => {
+  const files = fs.readdirSync(cache);
+  const notes = [];
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    try {
+      const note = {
+        name: path.basename(file, '.txt'),
+        text: fs.readFileSync(path.join(cache, file), 'utf8'),
+      };
+      notes.push(note);
+    } catch (error) {
+      console.error(`Error reading file ${file}:`, error);
+    }
+  }
+
+  return notes;
+};
+
+
 app.get('/notes/:name', (req, res) => {
-  const { name } = req.params;
-  if (notes[name]) {
-    res.send(notes[name]);
-  } else {
-    res.status(404).send('Note not found');
+  const notePath = getNotePath(req.params.name);
+  if (!fs.existsSync(notePath)) {
+    return res.status(404).send('Note not found');
+  }
+  try {
+    const noteContent = fs.readFileSync(notePath, 'utf8');
+    res.send(noteContent);
+  } catch (error) {
+    res.status(500).send('Error reading the note');
   }
 });
+
 
 app.put('/notes/:name', (req, res) => {
-  const { name } = req.params;
-  const { text } = req.body;
-  if (notes[name]) {
-    notes[name] = text;
+  const notePath = getNotePath(req.params.name);
+  if (!fs.existsSync(notePath)) {
+    return res.status(404).send('Note not found');
+  }
+  try {
+    fs.writeFileSync(notePath, req.body.text);
     res.send('Note updated');
-  } else {
-    res.status(404).send('Note not found');
+  } catch (error) {
+    res.status(500).send('Error updating the note');
   }
 });
+
 
 app.delete('/notes/:name', (req, res) => {
-  const { name } = req.params;
-  if (notes[name]) {
-    delete notes[name];
+  const notePath = getNotePath(req.params.name);
+  if (!fs.existsSync(notePath)) {
+    return res.status(404).send('Note not found');
+  }
+  try {
+    fs.unlinkSync(notePath);
     res.send('Note deleted');
-  } else {
-    res.status(404).send('Note not found');
+  } catch (error) {
+    res.status(500).send('Error deleting the note');
   }
 });
 
+
 app.get('/notes', (req, res) => {
-  const noteList = Object.keys(notes).map(name => ({ name, text: notes[name] }));
-  res.json(noteList);
+  try {
+    res.json(listNotes());
+  } catch (error) {
+    res.status(500).send('Error listing notes');
+  }
 });
+
 
 app.post('/write', (req, res) => {
   const { note_name, note } = req.body;
-  if (notes[note_name]) {
-    res.status(400).send('Note already exists');
-  } else {
-    notes[note_name] = note;
+  const notePath = getNotePath(note_name);
+  if (fs.existsSync(notePath)) {
+    return res.status(400).send('Note already exists');
+  }
+  try {
+    fs.writeFileSync(notePath, note);
     res.status(201).send('Note created');
+  } catch (error) {
+    res.status(500).send('Error creating the note');
   }
 });
 
+
 app.get('/UploadForm.html', (req, res) => {
-  res.sendFile(__dirname + '/UploadForm.html');
+  res.sendFile(path.join(__dirname, 'UploadForm.html'));
+});
+
+
+const server = http.createServer(app);
+
+server.listen(port, host, () => {
+  console.log(`Server running at http://${host}:${port}/`);
 });
