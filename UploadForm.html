@@ -1,19 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Upload Note</title>
+  <title>Завантажити нотатку</title>
+   <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      padding: 10px 15px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
 </head>
 <body>
+
+  <h1>Форма для завантаження нотатки</h1>
   <form action="/write" method="POST">
-    <label for="note_name">Note Name:</label>
+    <label for="note_name">Ім'я нотатки:</label>
     <input type="text" id="note_name" name="note_name" required>
     <br>
-    <label for="note">Note Content:</label>
+    <label for="note">Опис нотатки:</label>
     <textarea id="note" name="note" required></textarea>
     <br>
-    <button type="submit">Submit</button>
+    <button type="submit">Завантажити</button>
   </form>
+
+
 </body>
 </html>
