@@ -39,3 +39,47 @@ const listNotes = () => {
     
     return notes;
   };
+
+  app.get('/notes/:name', (req, res) => {
+    const notePath = getNotePath(req.params.name);
+    if (!fs.existsSync(notePath)) {
+      return res.status(404).send('Note not found');
+    }
+    res.send(fs.readFileSync(notePath, 'utf8'));
+  });
+  
+  app.put('/notes/:name', (req, res) => {
+    const notePath = getNotePath(req.params.name);
+    if (!fs.existsSync(notePath)) {
+      return res.status(404).send('Note not found');
+    }
+    fs.writeFileSync(notePath, req.body.text);
+    res.send('Note updated');
+  });
+  
+  app.delete('/notes/:name', (req, res) => {
+    const notePath = getNotePath(req.params.name);
+    if (!fs.existsSync(notePath)) {
+      return res.status(404).send('Note not found');
+    }
+    fs.unlinkSync(notePath);
+    res.send('Note deleted');
+  });
+  
+  app.get('/notes', (req, res) => {
+    res.json(listNotes());
+  });
+  
+  app.post('/write', (req, res) => {
+    const { note_name, note } = req.body;
+    const notePath = getNotePath(note_name);
+    if (fs.existsSync(notePath)) {
+      return res.status(400).send('Note already exists');
+    }
+    fs.writeFileSync(notePath, note);
+    res.status(201).send('Note created');
+  });
+  
+  app.get('/UploadForm.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'UploadForm.html'));
+  });
