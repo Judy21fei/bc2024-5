@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e5dd4abd-fe3c-4f2c-9f7f-6f34fe9888bb",
+		"_postman_id": "d67019c2-44e8-4435-9546-5208f5a23cab",
 		"name": "Notes API",
 		"description": "# 🗒️ Get started here\n\nThis collection template is a blueprint demonstrating the core features of a note-taking REST API, like creating, viewing, and updating notes. You can use this template as inspiration to build your custom API or extend it to work with one you've already started working on.\n\n## 🔖 How to use this collection?\n\n#### **Step 1: Send the requests**\n\nSend the requests and view the response returned by the mock API, or check out the examples included.\n\n#### **Step 2: Update the base URL**\n\nSelect the collection and navigate to the Variables tab. Update the `base_url` variable with your API's URL.\n\n#### **Step 3: Customize the requests**\n\nUpdate the different requests to suit your use case, including the request body, authorization, documentation, headers, tests, and path parameters.\n\n#### **Step 4: Continue building the collection**\n\nCreate requests in this collection to test the new API endpoints you develop.\n\n## ℹ️ Resources\n\n[Building requests](https://learning.postman.com/docs/sending-requests/requests/)  \n[Authorizing requests](https://learning.postman.com/docs/sending-requests/authorization/)  \n[Using variables](https://learning.postman.com/docs/sending-requests/variables/)  \n[Creating your first collection](https://learning.postman.com/docs/getting-started/creating-the-first-collection/)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -77,21 +77,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/notes/:name",
+					"raw": "http://localhost:3000/notes",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
-						"notes",
-						":name"
-					],
-					"variable": [
-						{
-							"key": "name",
-							"value": ""
-						}
+						"notes"
 					]
 				},
 				"description": "Retrieve all notes."
@@ -103,21 +96,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/notes/:name",
-							"protocol": "http",
+							"raw": "{{base_url}}/notes",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "3000",
 							"path": [
-								"notes",
-								":name"
-							],
-							"variable": [
-								{
-									"key": "name",
-									"value": ""
-								}
+								"notes"
 							]
 						}
 					},
@@ -139,7 +123,7 @@
 			]
 		},
 		{
-			"name": "Get Upload.Form.html",
+			"name": "UploadForm",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -163,21 +147,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/notes/:name",
-							"protocol": "http",
+							"raw": "{{base_url}}/notes",
 							"host": [
-								"localhost"
+								"{{base_url}}"
 							],
-							"port": "3000",
 							"path": [
-								"notes",
-								":name"
-							],
-							"variable": [
-								{
-									"key": "name",
-									"value": ""
-								}
+								"notes"
 							]
 						}
 					},
@@ -188,6 +163,7 @@
 						{
 							"key": "Content-Type",
 							"value": "application/json",
+							"name": "Content-Type",
 							"description": "",
 							"type": "text"
 						}
@@ -203,14 +179,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/notes",
+					"raw": "http://localhost:3000/notes/name:",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
-						"notes"
+						"notes",
+						"name:"
 					]
 				},
 				"description": "Retrieve the details of a specific note by providing the note ID."
@@ -262,7 +239,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"title\": \"Updated Note\",\n  \"content\": \"This is an updated note.\",\n  \"text\": \"Updated note content\"\n}\n",
+					"raw": "{\n  \"title\": \"Updated Note\",\n  \"content\": \"This is an updated note.\",\n  \"text\": \"Новий текст нотатки\"\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -270,7 +247,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/notes/:name",
+					"raw": "http://localhost:3000/notes/name:",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -278,13 +255,7 @@
 					"port": "3000",
 					"path": [
 						"notes",
-						":name"
-					],
-					"variable": [
-						{
-							"key": "name",
-							"value": ""
-						}
+						"name:"
 					]
 				},
 				"description": "Update the details of a specific note identified by its note ID."
@@ -344,7 +315,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/notes/:name",
+					"raw": "http://localhost:3000/notes/name:\n",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -352,13 +323,7 @@
 					"port": "3000",
 					"path": [
 						"notes",
-						":name"
-					],
-					"variable": [
-						{
-							"key": "name",
-							"value": ""
-						}
+						"name:\n"
 					]
 				},
 				"description": "Delete a specific note identified by its note ID."
