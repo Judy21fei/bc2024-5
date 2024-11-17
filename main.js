@@ -91,14 +91,22 @@ app.delete('/notes/:name', (req, res) => {
     res.send('Note deleted');
   } catch (error) {
     res.status(500).send('Error deleting the note');
+    console.log(`Error deleting the note`);
   }
 });
 
 app.get('/notes', (req, res) => {
   try {
     const notes = listNotes();
-    const notesText = notes.map(note => `Ім'я нотатки: ${note.name}\nВміст нотатки:\n${note.text}\n\n`).join('');
-    res.type('text/plain').send(notesText); 
+    let notesText = '';  // Порожній рядок для зберігання всього тексту нотаток
+
+    // Ітерую через кожну нотатку та додаю її до notesText
+    for (let i = 0; i < notes.length; i++) {
+      const note = notes[i];
+      notesText += `Ім'я нотатки: ${note.name}\nВміст нотатки:\n${note.text}\n\n`;
+    }
+
+    res.type('text/plain').send(notesText);
   } catch (error) {
     res.status(500).send('Error listing notes');
   }
