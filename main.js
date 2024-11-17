@@ -3,9 +3,14 @@ const http = require('http');
 const { Command } = require('commander');
 const fs = require('fs');
 const path = require('path');
+const multer = require('multer'); // Для обробки form-data
 
 const app = express();
-app.use(express.json());
+
+// Налаштовуємо multer для роботи з form-data
+const upload = multer();
+
+app.use(express.text());
 app.use(express.urlencoded({ extended: true }));
 
 const program = new Command();
@@ -17,8 +22,6 @@ program
   .parse(process.argv);
 
 const { host, port, cache } = program.opts();
-
-
 
 if (!fs.existsSync(cache)) {
   fs.mkdirSync(cache);
@@ -50,8 +53,6 @@ app.get('/', (req, res) => {
   res.send('Welcome to the Notes API');
 });
 
-
-
 app.get('/notes/:name', (req, res) => {
   const notePath = getNotePath(req.params.name);
   if (!fs.existsSync(notePath)) {
@@ -65,53 +66,47 @@ app.get('/notes/:name', (req, res) => {
   }
 });
 
-
 app.put('/notes/:name', (req, res) => {
   const notePath = getNotePath(req.params.name);
   if (!fs.existsSync(notePath)) {
     return res.status(404).send('Note not found');
   }
   try {
-    fs.writeFileSync(notePath, req.body.text);
+    fs.writeFileSync(notePath, req.body);
     res.send('Note updated');
   } catch (error) {
     res.status(500).send('Error updating the note');
   }
 });
 
-
 app.delete('/notes/:name', (req, res) => {
-  const noteName = decodeURIComponent(req.params.name).trim(); // Декодуємо параметр і обрізаємо зайві пробіли
+  const noteName = decodeURIComponent(req.params.name).trim(); 
   const notePath = getNotePath(noteName);
-  
-  console.log(`Attempting to delete: ${notePath}`);
-  
+
   if (!fs.existsSync(notePath)) {
-      console.log('File not found');
-      return res.status(404).send('Not found');
+    return res.status(404).send('Note not found');
   }
-  
   try {
-      fs.unlinkSync(notePath);
-      console.log('File deleted');
-      res.send('Note deleted');
+    fs.unlinkSync(notePath);
+    res.send('Note deleted');
   } catch (error) {
-      console.error('Error deleting file:', error);
-      res.status(500).send('Error deleting the note');
+    res.status(500).send('Error deleting the note');
   }
 });
 
-
 app.get('/notes', (req, res) => {
   try {
-    res.json(listNotes());
+    const notes = listNotes();
+    const notesText = notes.map(note => `Ім'я нотатки: ${note.name}\nВміст нотатки:\n${note.text}\n\n`).join('');
+    res.type('text/plain').send(notesText); 
   } catch (error) {
     res.status(500).send('Error listing notes');
   }
 });
 
 
-app.post('/write', (req, res) => {
+
+app.post('/write', upload.none(), (req, res) => { // Використовуємо upload.none() для простого form-data
   const { note_name, note } = req.body;
   const notePath = getNotePath(note_name);
   if (fs.existsSync(notePath)) {
@@ -129,7 +124,6 @@ app.post('/write', (req, res) => {
 app.get('/UploadForm.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'UploadForm.html'));
 });
-
 
 const server = http.createServer(app);
 
