@@ -14,7 +14,18 @@
 				"header": [],
 				"body": {
 					"mode": "formdata",
-					"formdata": []
+					"formdata": [
+						{
+							"key": "note_name",
+							"value": "Назва нотатки",
+							"type": "text"
+						},
+						{
+							"key": "note",
+							"value": "Вміст нотатки",
+							"type": "text"
+						}
+					]
 				},
 				"url": {
 					"raw": "http://localhost:3000/write",
@@ -72,7 +83,7 @@
 			]
 		},
 		{
-			"name": "Get all notes",
+			"name": "List Notes",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -124,9 +135,29 @@
 		},
 		{
 			"name": "UploadForm",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
 				"url": {
 					"raw": "http://localhost:3000/UploadForm.html",
 					"protocol": "http",
@@ -174,12 +205,21 @@
 			]
 		},
 		{
-			"name": "Get note details",
+			"name": "Get note",
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
 				"url": {
-					"raw": "http://localhost:3000/notes/name:",
+					"raw": "http://localhost:3000/notes/Main",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -187,7 +227,7 @@
 					"port": "3000",
 					"path": [
 						"notes",
-						"name:"
+						"Main"
 					]
 				},
 				"description": "Retrieve the details of a specific note by providing the note ID."
@@ -239,15 +279,10 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"title\": \"Updated Note\",\n  \"content\": \"This is an updated note.\",\n  \"text\": \"Новий текст нотатки\"\n}\n",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"raw": "Затест пройшов перевірку"
 				},
 				"url": {
-					"raw": "http://localhost:3000/notes/name:",
+					"raw": "http://localhost:3000/notes/Нотатка",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -255,7 +290,7 @@
 					"port": "3000",
 					"path": [
 						"notes",
-						"name:"
+						"Нотатка"
 					]
 				},
 				"description": "Update the details of a specific note identified by its note ID."
@@ -314,8 +349,12 @@
 			"request": {
 				"method": "DELETE",
 				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
 				"url": {
-					"raw": "http://localhost:3000/notes/name:\n",
+					"raw": "http://localhost:3000/notes/:name\n",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -323,7 +362,13 @@
 					"port": "3000",
 					"path": [
 						"notes",
-						"name:\n"
+						":name\n"
+					],
+					"variable": [
+						{
+							"key": "name\n",
+							"value": ""
+						}
 					]
 				},
 				"description": "Delete a specific note identified by its note ID."
